@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 0e41788f510268a49ade0dce5d83b2b8
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - cam: {instanceID: 0}
+  - salas: {instanceID: 0}
+  - player: {instanceID: 0}
+  - puertas: {fileID: 1567648041466569050, guid: 1399f79a9ef9ebe42b492c2840d3cfa1, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

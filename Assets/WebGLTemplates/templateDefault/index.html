@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Unity WebGL Player | Procedural Dungeon</title>
+    <link rel="shortcut icon" href="TemplateData/favicon.ico">
+    <link rel="stylesheet" href="TemplateData/style.css">
+    <link rel="stylesheet" href="./index.css">
+  </head>
+  <body style="text-align: center; width: 100VW; height: 100vh; width: auto; background-image: url(resources/pcgDungeon.png); background-repeat: no-repeat; background-attachment: fixed; background-size: cover; background-position: center center;">
+    <div style="width: 100%; height: 90%;  background-repeat: no-repeat; background-size: cover;">
+      <div>
+        <p class="tituloPrincipal">¡Reducir volumen de navegador!</p>
+      </div>
+    </div>
+    <div id="unity-container" class="unity-desktop" style="background-color: white;">
+      <canvas id="unity-canvas" width=960 height=540></canvas>
+      <div id="unity-loading-bar">
+        <div id="unity-logo"></div>
+        <div id="unity-progress-bar-empty">
+          <div id="unity-progress-bar-full"></div>
+        </div>
+      </div>
+      <div id="unity-warning"> </div>
+      <div id="unity-footer">
+        <div id="unity-webgl-logo"></div>
+        <div id="unity-fullscreen-button"></div>
+        <div id="unity-build-title" style="color: black;">Procedural Dungeon</div>
+      </div>
+    </div>
+    <div class="contenedor">
+      <div class="fila canvasWidth">
+        <div class="columna instruc">
+          <p class="titulo"id="instrucciones">INSTRUCCIONES</p>
+          <p class="texto">DESPLAZAMIENTO:</p>
+          <ol style="padding-inline-start: 20px; margin-top: 8px; margin-bottom: 8px;">
+            <li>
+              <p class="texto">TECLA "W" O FLECHA ARRIBA: DESPLAZARSE HACIA ARRIBA</p>
+            </li>
+            <li>
+              <p class="texto">TECLA "S" O FLECHA ABAJO: DESPLAZARSE HACIA ABAJO</p>
+            </li>
+            <li>
+              <p class="texto">TECLA "A" O FLECHA IZQUIERDA: DESPLAZARSE A LA IZQUIERDA</p>
+            </li>
+            <li>
+              <p class="texto">TECLA "D" O FLECHA DERECHA: DESPLAZARSE A LA DERECHA</p>
+            </li>
+            <li>
+              <p class="texto">MOUSE: APUNTAR PARA ATACAR</p>
+            </li>
+          </ol>
+          <div style="height: 20px;"> </div>
+          <!--<p class="texto">TECLA "W" O FLECHA ARRIBA: AVANZAR</p>
+          <p class="texto">TECLA "S" O FLECHA ABAJO: RETROCEDER</p>
+          <p class="texto">TECLA "A" O FLECHA IZQUIERDA: DESPLAZARSE A LA IZQUIERDA</p>
+          <p class="texto">TECLA "D" O FLECHA DERECHA: DESPLAZARSE A LA DERECHA</p>
+          <p class="texto">MOUSE: ROTACIÓN ARRIBA/ABAJO E IZQUIEDA/DERECHA</p>-->
+          <p class="texto">CLIC IZQUIERDO: ATAQUE DISTANCIA</p>
+          <p class="texto">CLIC DERECHO: ATAQUE ESPADA</p>
+          <p class="texto">TECLA "P": PAUSA/MENÚ</p>
+          <p class="texto">TECLA "ESC": LIBERAR CURSOR</p>
+        </div>
+      </div>
+      <div class="fila canvasWidth" style="padding-bottom: 15px;">
+        <div class="columna">
+        </div>
+      </div>
+    </div>
+    
+    <script>
+      var container = document.querySelector("#unity-container");
+      var canvas = document.querySelector("#unity-canvas");
+      var loadingBar = document.querySelector("#unity-loading-bar");
+      var progressBarFull = document.querySelector("#unity-progress-bar-full");
+      var fullscreenButton = document.querySelector("#unity-fullscreen-button");
+      var warningBanner = document.querySelector("#unity-warning");
+
+      // Shows a temporary message banner/ribbon for a few seconds, or
+      // a permanent error message on top of the canvas if type=='error'.
+      // If type=='warning', a yellow highlight color is used.
+      // Modify or remove this function to customize the visually presented
+      // way that non-critical warnings and error messages are presented to the
+      // user.
+      function unityShowBanner(msg, type) {
+        function updateBannerVisibility() {
+          warningBanner.style.display = warningBanner.children.length ? 'block' : 'none';
+        }
+        var div = document.createElement('div');
+        div.innerHTML = msg;
+        warningBanner.appendChild(div);
+        if (type == 'error') div.style = 'background: red; padding: 10px;';
+        else {
+          if (type == 'warning') div.style = 'background: yellow; padding: 10px;';
+          setTimeout(function() {
+            warningBanner.removeChild(div);
+            updateBannerVisibility();
+          }, 5000);
+        }
+        updateBannerVisibility();
+      }
+
+      var buildUrl = "Build";
+      var loaderUrl = buildUrl + "/proceduralGen.loader.js";
+      var config = {
+        dataUrl: buildUrl + "/proceduralGen.data",
+        frameworkUrl: buildUrl + "/proceduralGen.framework.js",
+        codeUrl: buildUrl + "/proceduralGen.wasm",
+        streamingAssetsUrl: "StreamingAssets",
+        companyName: "Espadianto SAC.",
+        productName: "Procedural Dungeon",
+        productVersion: "0.1.1",
+        showBanner: unityShowBanner,
+      };
+
+      // By default Unity keeps WebGL canvas render target size matched with
+      // the DOM size of the canvas element (scaled by window.devicePixelRatio)
+      // Set this to false if you want to decouple this synchronization from
+      // happening inside the engine, and you would instead like to size up
+      // the canvas DOM size and WebGL render target sizes yourself.
+      // config.matchWebGLToCanvasSize = false;
+
+      if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+        // Mobile device style: fill the whole browser client area with the game canvas:
+
+        var meta = document.createElement('meta');
+        meta.name = 'viewport';
+        meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
+        document.getElementsByTagName('head')[0].appendChild(meta);
+        container.className = "unity-mobile";
+
+        // To lower canvas resolution on mobile devices to gain some
+        // performance, uncomment the following line:
+        // config.devicePixelRatio = 1;
+
+        canvas.style.width = window.innerWidth + 'px';
+        canvas.style.height = window.innerHeight + 'px';
+
+        unityShowBanner('WebGL builds are not supported on mobile devices.');
+      } else {
+        // Desktop style: Render the game canvas in a window that can be maximized to fullscreen:
+
+        canvas.style.width = "960px";
+        canvas.style.height = "540px";
+      }
+
+      loadingBar.style.display = "block";
+
+      var script = document.createElement("script");
+      script.src = loaderUrl;
+      script.onload = () => {
+        createUnityInstance(canvas, config, (progress) => {
+          progressBarFull.style.width = 100 * progress + "%";
+        }).then((unityInstance) => {
+          this.unityInstance = unityInstance;
+          loadingBar.style.display = "none";
+          fullscreenButton.onclick = () => {
+            unityInstance.SetFullscreen(1);
+          };
+        }).catch((message) => {
+          alert(message);
+        });
+      };
+      document.body.appendChild(script);
+    </script>
+    <script type="module">
+      // Import the functions you need from the SDKs you need
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.8.2/firebase-app.js";
+      import { Database } from 'https://www.gstatic.com/firebasejs/9.8.2/firebase-database.js'
+      // TODO: Add SDKs for Firebase products that you want to use
+      // https://firebase.google.com/docs/web/setup#available-libraries
+    
+      // Your web app's Firebase configuration
+      const firebaseConfig = {
+        apiKey: "AIzaSyDXofnYbICpDTaU1M9hc9hSc1YFLxj9SR4",
+        authDomain: "pcgdungeon.firebaseapp.com",
+        databaseURL: "https://pcgdungeon-default-rtdb.firebaseio.com",
+        projectId: "pcgdungeon",
+        storageBucket: "pcgdungeon.appspot.com",
+        messagingSenderId: "9899579906",
+        appId: "1:9899579906:web:bdd1cd4f76ac93cf77e51b"
+      };
+    
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+      
+    </script>
+  </body>
+</html>

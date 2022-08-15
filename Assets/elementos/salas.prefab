@@ -1,0 +1,129 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &7142666344451894263
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7142666344451894261}
+  - component: {fileID: 7142666344451894260}
+  m_Layer: 0
+  m_Name: salas
+  m_TagString: salas
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7142666344451894261
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7142666344451894263}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7142666344451894260
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7142666344451894263}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8216fcacda6cd443bb9c285da8f043c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  salasIzq:
+  - {fileID: 348404923687351311, guid: 10750801e34d39444810a22ae358f1cf, type: 3}
+  - {fileID: 12992299479858515, guid: 6c31d6d4070340e488d11113a8e4a46e, type: 3}
+  - {fileID: 736748771376733280, guid: 9ab980a2f2a695745904ce883a6df8c9, type: 3}
+  - {fileID: 736748771376733280, guid: 9ab980a2f2a695745904ce883a6df8c9, type: 3}
+  - {fileID: 736748771376733280, guid: 9ab980a2f2a695745904ce883a6df8c9, type: 3}
+  - {fileID: 2818392205752399664, guid: 191adb9063b66ba43960d83204a66f0e, type: 3}
+  - {fileID: 1594032705854356846, guid: 41e91d3764784e34e8534e94d4db8ddc, type: 3}
+  - {fileID: 8434210669895276452, guid: a80382a6b1f26614dbf5023cbf61b97a, type: 3}
+  - {fileID: 2047579247733666438, guid: 59c083caa43cc4c4ebc6a2b0364ca791, type: 3}
+  - {fileID: 5424024097467648708, guid: 64b8a56cdf7c9024c95d5d99c5d28f2f, type: 3}
+  - {fileID: 12992299479858515, guid: 6c31d6d4070340e488d11113a8e4a46e, type: 3}
+  - {fileID: 2818392205752399664, guid: 191adb9063b66ba43960d83204a66f0e, type: 3}
+  - {fileID: 736748771376733280, guid: 9ab980a2f2a695745904ce883a6df8c9, type: 3}
+  - {fileID: 736748771376733280, guid: 9ab980a2f2a695745904ce883a6df8c9, type: 3}
+  salasArr:
+  - {fileID: 7209286408327769275, guid: 37941ab8dbd68044ab69057bd30be205, type: 3}
+  - {fileID: 12992299479858515, guid: 6c31d6d4070340e488d11113a8e4a46e, type: 3}
+  - {fileID: 4701248460371380133, guid: 4f97826668d8fec4798db497be0df884, type: 3}
+  - {fileID: 3088259885755772125, guid: 7705323b4f0792f4586a6aca92061927, type: 3}
+  - {fileID: 3088259885755772125, guid: 7705323b4f0792f4586a6aca92061927, type: 3}
+  - {fileID: 3088259885755772125, guid: 7705323b4f0792f4586a6aca92061927, type: 3}
+  - {fileID: 1594032705854356846, guid: 41e91d3764784e34e8534e94d4db8ddc, type: 3}
+  - {fileID: 8434210669895276452, guid: a80382a6b1f26614dbf5023cbf61b97a, type: 3}
+  - {fileID: 3933159364541233651, guid: 8edcd032ba5719c488a4017961ca0d95, type: 3}
+  - {fileID: 5424024097467648708, guid: 64b8a56cdf7c9024c95d5d99c5d28f2f, type: 3}
+  - {fileID: 12992299479858515, guid: 6c31d6d4070340e488d11113a8e4a46e, type: 3}
+  - {fileID: 4701248460371380133, guid: 4f97826668d8fec4798db497be0df884, type: 3}
+  - {fileID: 3088259885755772125, guid: 7705323b4f0792f4586a6aca92061927, type: 3}
+  - {fileID: 3088259885755772125, guid: 7705323b4f0792f4586a6aca92061927, type: 3}
+  salasDer:
+  - {fileID: 674407161190104047, guid: cebf561c6a8c7b74db7167249787e222, type: 3}
+  - {fileID: 736748771376733280, guid: 9ab980a2f2a695745904ce883a6df8c9, type: 3}
+  - {fileID: 736748771376733280, guid: 9ab980a2f2a695745904ce883a6df8c9, type: 3}
+  - {fileID: 736748771376733280, guid: 9ab980a2f2a695745904ce883a6df8c9, type: 3}
+  - {fileID: 4701248460371380133, guid: 4f97826668d8fec4798db497be0df884, type: 3}
+  - {fileID: 8903058738710829983, guid: 2ac15968d2bdbfe4e8d58c39fa1626a3, type: 3}
+  - {fileID: 1594032705854356846, guid: 41e91d3764784e34e8534e94d4db8ddc, type: 3}
+  - {fileID: 2047579247733666438, guid: 59c083caa43cc4c4ebc6a2b0364ca791, type: 3}
+  - {fileID: 3933159364541233651, guid: 8edcd032ba5719c488a4017961ca0d95, type: 3}
+  - {fileID: 5424024097467648708, guid: 64b8a56cdf7c9024c95d5d99c5d28f2f, type: 3}
+  - {fileID: 8903058738710829983, guid: 2ac15968d2bdbfe4e8d58c39fa1626a3, type: 3}
+  - {fileID: 4701248460371380133, guid: 4f97826668d8fec4798db497be0df884, type: 3}
+  - {fileID: 736748771376733280, guid: 9ab980a2f2a695745904ce883a6df8c9, type: 3}
+  - {fileID: 736748771376733280, guid: 9ab980a2f2a695745904ce883a6df8c9, type: 3}
+  salasAba:
+  - {fileID: 2044397065068186168, guid: 522dd70017f7d2c4e933d5f8885ff7cb, type: 3}
+  - {fileID: 2818392205752399664, guid: 191adb9063b66ba43960d83204a66f0e, type: 3}
+  - {fileID: 3088259885755772125, guid: 7705323b4f0792f4586a6aca92061927, type: 3}
+  - {fileID: 3088259885755772125, guid: 7705323b4f0792f4586a6aca92061927, type: 3}
+  - {fileID: 3088259885755772125, guid: 7705323b4f0792f4586a6aca92061927, type: 3}
+  - {fileID: 8903058738710829983, guid: 2ac15968d2bdbfe4e8d58c39fa1626a3, type: 3}
+  - {fileID: 8434210669895276452, guid: a80382a6b1f26614dbf5023cbf61b97a, type: 3}
+  - {fileID: 2047579247733666438, guid: 59c083caa43cc4c4ebc6a2b0364ca791, type: 3}
+  - {fileID: 3933159364541233651, guid: 8edcd032ba5719c488a4017961ca0d95, type: 3}
+  - {fileID: 5424024097467648708, guid: 64b8a56cdf7c9024c95d5d99c5d28f2f, type: 3}
+  - {fileID: 2818392205752399664, guid: 191adb9063b66ba43960d83204a66f0e, type: 3}
+  - {fileID: 8903058738710829983, guid: 2ac15968d2bdbfe4e8d58c39fa1626a3, type: 3}
+  - {fileID: 3088259885755772125, guid: 7705323b4f0792f4586a6aca92061927, type: 3}
+  - {fileID: 3088259885755772125, guid: 7705323b4f0792f4586a6aca92061927, type: 3}
+  contadorSalas: 0
+  Limite1: 4
+  Limite2: 4
+  lim1: 0
+  lim2: 0
+  timer: 5
+  spawnedBoss: 0
+  jefeinstanciado: {fileID: 0}
+  dl: {fileID: 0}
+  salasInstanciadas: []
+  boss:
+  - {fileID: 2517300769757566139, guid: f8d0cc86e1c0f1f4a9683b948397a3ef, type: 3}
+  - {fileID: 9062522958490759112, guid: 4c9af94e3e8573749893917453370d9e, type: 3}
+  - {fileID: 3791787470559802540, guid: edc18a352a0868e49b4889caa1fafb1a, type: 3}
+  SpawnMuros: {fileID: 1962552170136533241, guid: 7674411b0a38df34a9f4a4a5c9dfb5b9, type: 3}
+  muros: {fileID: 6058240287959539859, guid: af609db8247502f40b5cf27eb3232bb6, type: 3}
+  juegoListo: 0
+  player: {fileID: 0}
+  SalaLimite: {fileID: 8619227647078813118, guid: 48bcb31252a73ae48a5c8292e0dbecb3, type: 3}
+  surface: {fileID: 0}
+  salasSuperadas: 0
+  gm: {fileID: 0}
+  t1: 0
