@@ -26,6 +26,7 @@ public class updateCam : MonoBehaviour
     public GameObject map;
     public GameObject salaIn;
     public GameObject salaOut;
+    public GameObject unknown;
     public GameObject boss;
     public bool contenidoGenerado = false;
     private bool spawnPortal=false;
@@ -202,6 +203,14 @@ public class updateCam : MonoBehaviour
             }
             salaOut.SetActive(false);
             salaIn.SetActive(true);
+            foreach (GameObject cuadro in GameObject.FindGameObjectsWithTag("Unknown"))
+            {
+                Debug.Log(cuadro.transform.position.x + "," + cuadro.transform.position.z);
+                if ((Mathf.Abs(cuadro.transform.position.x - transform.position.x) == 11 && Mathf.Abs(cuadro.transform.position.z - transform.position.z) == 0) || (Mathf.Abs(cuadro.transform.position.z - transform.position.z) == 11 && Mathf.Abs(cuadro.transform.position.x - transform.position.x) == 0))
+                {
+                    cuadro.transform.GetChild(0).gameObject.SetActive(true);
+                }
+            }
             entrada = true;
             player.GetComponent<charController>().animador.Play("RunForwardBattle");
             //Debug.Log("se ha entrado a la sala en: " + transform.position);
@@ -221,19 +230,23 @@ public class updateCam : MonoBehaviour
                 if ((posXJ - destX) > 3)
                 {
                     destX += 4.5f;
+                    unknown.transform.GetChild(3).gameObject.SetActive(true);
                 }
                 else if((posXJ - destX) < -3)
                 {
                     destX -= 4.5f;
+                    unknown.transform.GetChild(1).gameObject.SetActive(true);
                 }
                 else { destX = posXJ; }
                 if((posZJ - destZ) > 3)
                 {
                     destZ += 4.5f;
+                    unknown.transform.GetChild(2).gameObject.SetActive(true);
                 }
                 else if((posZJ - destZ) < -3)
                 {
                     destZ -= 4.5f;
+                    unknown.transform.GetChild(4).gameObject.SetActive(true);
                 }
                 else { destZ = posZJ; }
                 destino = new Vector3(destX, 0.6f, destZ);
