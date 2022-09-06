@@ -4,7 +4,32 @@ using UnityEngine;
 using UnityEngine.Analytics;
 using System;
 using Unity.Services.Core;
+using Newtonsoft.Json;
+using UnityEngine.Networking;
+using System.Text;
 //using Unity.Services.Analytics;
+
+public class muerteStatic
+{
+    public string usuario;
+    public string inicioRun;
+    public int nivel;
+    public float tiempo;
+    public int salasTotales;
+    public int salasCompletadas;
+    public int danoRecibido;
+    public muerteStatic(string us, string ini, int niv, float t, int st, int sc, int dr)
+    {
+        this.usuario = us;
+        this.inicioRun = ini;
+        this.nivel = niv;
+        this.tiempo = t;
+        this.salasTotales = st;
+        this.salasCompletadas = sc;
+        this.danoRecibido = dr;
+    }
+}
+
 public class charController : MonoBehaviour
 {
     //public float speed;
@@ -114,7 +139,16 @@ public class charController : MonoBehaviour
         catch
         {
         }*/
-        Debug.Log("muerteRun: " + Analytics.IsCustomEventEnabled("muerteRun"));
+        //---------------PruebaFirebaseNest--------------
+        string id = gm.identificadorMaq.Replace('.', ',');
+        id = id.Replace('/', ',');
+        string[] ident = id.Split('|');
+        dificultadLineal df = GameObject.Find("dificultad").GetComponent<dificultadLineal>();
+        muerteStatic ms = new muerteStatic(ident[0], ident[1], df.nivelDificultad, gm.tiempoNivel, gm.salasActuales.contadorSalas + 1, gm.salasActuales.salasSuperadas, danoNivel);
+        string jsonString = JsonConvert.SerializeObject(ms);
+        StartCoroutine(muerte(jsonString));
+        //-----------------------------------------------
+        /*Debug.Log("muerteRun: " + Analytics.IsCustomEventEnabled("muerteRun"));
         AnalyticsResult anRes = Analytics.CustomEvent("muerteRun-" + gm.identificadorMaq + "-" + GameObject.Find("dificultad").GetComponent<dificultadLineal>().nivelDificultad);
         Debug.Log("analyticsResult muerteRun: " + anRes);
         Analytics.FlushEvents();
@@ -122,10 +156,35 @@ public class charController : MonoBehaviour
         anRes = Analytics.CustomEvent("muerteUsuario-" + gm.usuario + "-" + GameObject.Find("dificultad").GetComponent<dificultadLineal>().nivelDificultad);
         Debug.Log("analyticsResult muerteUsuario: " + anRes);
         Analytics.FlushEvents();
-        Debug.Log("se hizo analytics de muerte");
+        Debug.Log("se hizo analytics de muerte");*/
         Invoke("habilitarMenu", 1f);
     }
-
+    IEnumerator muerte(string js)
+    {
+        UnityWebRequest uwr = new UnityWebRequest("https://pcg-nest.herokuapp.com/muerteStatic", "POST");
+        byte[] xmlToSend = Encoding.UTF8.GetBytes(js);
+        uwr.uploadHandler = (UploadHandler)new UploadHandlerRaw(xmlToSend);
+        string cadenadeXML = Encoding.UTF8.GetString(xmlToSend);
+        //Debug.Log(cadenadeXML);
+        uwr.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();
+        uwr.SetRequestHeader("Content-Type", "application/json");
+        yield return uwr.SendWebRequest();
+        if (uwr.isNetworkError || uwr.isHttpError)
+        {
+            string servicioResult2 = uwr.downloadHandler.text;
+            Debug.Log("error webrequest: " + servicioResult2);
+            Debug.Log("statusCode: " + uwr.responseCode);
+            uwr.Dispose();
+            yield break;
+        }
+        else
+        {
+            Debug.Log("se envio la data");
+            Debug.Log("statusCode: " + uwr.responseCode);
+            uwr.Dispose();
+            yield break;
+        }
+    }
     private void FixedUpdate()
     {
         if (vivo)

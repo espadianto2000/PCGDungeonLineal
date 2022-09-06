@@ -3,7 +3,29 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Analytics;
 using Unity.Services.Core;
+using Newtonsoft.Json;
+using UnityEngine.Networking;
+using System.Text;
 //using Unity.Services.Analytics;
+
+public class salaFStatic
+{
+    public string usuario;
+    public string inicioRun;
+    public int nivel;
+    public float tiempoSala;
+    public int danoRecibidoTotal;
+    public bool salaJefe;
+    public salaFStatic(string us, string ini, int niv, float t, int danoJ, bool jef)
+    {
+        this.usuario = us;
+        this.inicioRun = ini;
+        this.nivel = niv;
+        this.tiempoSala = t;
+        this.danoRecibidoTotal = danoJ;
+        this.salaJefe = jef;
+    }
+}
 
 public class updateCam : MonoBehaviour
 {
@@ -35,6 +57,7 @@ public class updateCam : MonoBehaviour
     public int danoRecibidoEnSala = 0;
     public float tiempoSala = -1;
     private AudioManager am;
+    public salaFStatic sf;
     // Start is called before the first frame update
     void Start()
     {
@@ -119,34 +142,24 @@ public class updateCam : MonoBehaviour
             
             if (gm.identificado)
             {
-                //Debug.Log("Analytics : " + gm.identificadorMaq + "--" + "salaFinalizada");
-                /*AnalyticsService.Instance.CustomData("salaFinalizada", new Dictionary<string, object>
-                {
-                    { "UserRun",gm.identificadorMaq},
-                    { "nivelActual", dl.nivelDificultad },
-                    { "tiempo", tiempoSala },
-                    { "danoRecibido", danoRecibidoEnSala },
-                    { "salaJefe", spawnPortal }
-                });
-                try
-                {
-                    AnalyticsService.Instance.Flush();
-                }
-                catch
-                {
-
-                }*/
-                Debug.Log("salaFinalizada: " + Analytics.IsCustomEventEnabled("salaFinalizada"));
+                //---------------PruebaFirebaseNest--------------
+                string id = gm.identificadorMaq.Replace('.', ',');
+                id = id.Replace('/', ',');
+                string[] ident = id.Split('|');
+                sf = new salaFStatic(ident[0], ident[1], dl.nivelDificultad, tiempoSala, danoRecibidoEnSala, spawnPortal);
+                string jsonString = JsonConvert.SerializeObject(sf);
+                Debug.Log(jsonString);
+                StartCoroutine(salaFinalizada(jsonString));
+                //-----------------------------------------------
+                /*Debug.Log("salaFinalizada: " + Analytics.IsCustomEventEnabled("salaFinalizada"));
                 AnalyticsResult anRes = Analytics.CustomEvent("salaFinalizada-"+ gm.identificadorMaq +"-"+ dl.nivelDificultad, new Dictionary<string, object>
                 {
-                    /*{ "UserRun",gm.identificadorMaq},
-                    { "nivelActual", dl.nivelDificultad },*/
                     { "tiempo", tiempoSala },
                     { "danoRecibido", danoRecibidoEnSala },
                     { "salaJefe", spawnPortal }
                 });
                 Debug.Log("analyticsResult salaFinalizada: " + anRes);
-                Analytics.FlushEvents();
+                Analytics.FlushEvents();*/
                 tiempoSala = -1;
             }
             salas.salasSuperadas++;
@@ -162,6 +175,31 @@ public class updateCam : MonoBehaviour
                 premio.SetActive(true);
                 Instantiate(gm.portal, new Vector3(transform.position.x,0.5f,transform.position.z), Quaternion.Euler(new Vector3(-90,0,0)));
             }
+        }
+    }
+    IEnumerator salaFinalizada(string js)
+    {
+        UnityWebRequest uwr = new UnityWebRequest("https://pcg-nest.herokuapp.com/salaStatic", "POST");
+        byte[] xmlToSend = Encoding.UTF8.GetBytes(js);
+        uwr.uploadHandler = (UploadHandler)new UploadHandlerRaw(xmlToSend);
+        string cadenadeXML = Encoding.UTF8.GetString(xmlToSend);
+        uwr.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();
+        uwr.SetRequestHeader("Content-Type", "application/json");
+        yield return uwr.SendWebRequest();
+        if (uwr.isNetworkError || uwr.isHttpError)
+        {
+            string servicioResult2 = uwr.downloadHandler.text;
+            Debug.Log("error webrequest: " + servicioResult2);
+            Debug.Log("statusCode: " + uwr.responseCode);
+            uwr.Dispose();
+            yield break;
+        }
+        else
+        {
+            Debug.Log("se envio la data");
+            Debug.Log("statusCode: " + uwr.responseCode);
+            uwr.Dispose();
+            yield break;
         }
     }
     private void FixedUpdate()
