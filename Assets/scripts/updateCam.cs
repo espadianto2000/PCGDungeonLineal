@@ -8,6 +8,25 @@ using UnityEngine.Networking;
 using System.Text;
 //using Unity.Services.Analytics;
 
+public class algoritmoInSala
+{
+    public int mxObstaculos;
+    public int obstaculos;
+    public int enemigos;
+    public int trampas;
+    public bool premio;
+    public float tiempo;
+    public algoritmoInSala(int mxObstaculos, int obstaculos, int enemigos, int trampas, bool premio, float tiempo)
+    {
+        this.mxObstaculos = mxObstaculos;
+        this.obstaculos = obstaculos;
+        this.enemigos = enemigos;
+        this.trampas = trampas;
+        this.premio = premio;
+        this.tiempo = tiempo;
+    }
+}
+
 public class salaFStatic
 {
     public string usuario;
@@ -236,8 +255,11 @@ public class updateCam : MonoBehaviour
                 GetComponent<generarDistribucion>().instanciarElementos(dl);
                 contenidoGenerado = true;
                 float t2 = Time.realtimeSinceStartup;
-                
-                Debug.Log("tiempo de algoritmo inSala: " + (t2 - t1));
+                algoritmoInSala ais = new algoritmoInSala(dl.numObs, GetComponent<generarDistribucion>().contObs, dl.numEnemigos, dl.numTrampas, premio, (t2 - t1));
+                string jsonString = JsonConvert.SerializeObject(ais);
+                StartCoroutine(tileMap(jsonString));
+                ////////////////////
+                //Debug.Log("tiempo de algoritmo inSala: " + (t2 - t1));
             }
             salaOut.SetActive(false);
             salaIn.SetActive(true);
@@ -294,6 +316,33 @@ public class updateCam : MonoBehaviour
                 moverjugador = true;
             }
             map.transform.position = transform.position + new Vector3(0, 60, 0);
+        }
+    }
+
+    IEnumerator tileMap(string js)
+    {
+        UnityWebRequest uwr = new UnityWebRequest("https://pcg-nest.herokuapp.com/tileMapStatic", "POST");
+        byte[] xmlToSend = Encoding.UTF8.GetBytes(js);
+        uwr.uploadHandler = (UploadHandler)new UploadHandlerRaw(xmlToSend);
+        string cadenadeXML = Encoding.UTF8.GetString(xmlToSend);
+        //Debug.Log(cadenadeXML);
+        uwr.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();
+        uwr.SetRequestHeader("Content-Type", "application/json");
+        yield return uwr.SendWebRequest();
+        if (uwr.isNetworkError || uwr.isHttpError)
+        {
+            string servicioResult2 = uwr.downloadHandler.text;
+            Debug.Log("error webrequest: " + servicioResult2);
+            Debug.Log("statusCode: " + uwr.responseCode);
+            uwr.Dispose();
+            yield break;
+        }
+        else
+        {
+            Debug.Log("se envio la data");
+            Debug.Log("statusCode: " + uwr.responseCode);
+            uwr.Dispose();
+            yield break;
         }
     }
     private void OnTriggerExit(Collider other)

@@ -1,6 +1,20 @@
 using System.Collections;
+using Newtonsoft.Json;
+using System.Text;
+using UnityEngine.Networking;
 using System.Collections.Generic;
 using UnityEngine;
+
+public class algoritmoCellular
+{
+    public int salasGeneradas;
+    public float tiempo;
+    public algoritmoCellular(int salasGeneradas, float tiempo)
+    {
+        this.salasGeneradas = salasGeneradas;
+        this.tiempo = tiempo;
+    }
+}
 
 public class salas : MonoBehaviour
 {
@@ -144,11 +158,40 @@ public class salas : MonoBehaviour
             juegoListo = true;
             gm.tiempoNivel = 0;
             float t2 = Time.realtimeSinceStartup;
-            Debug.Log("tiempo de generacíón de salas: " + (t2 - t1));
+            algoritmoCellular ac = new algoritmoCellular(contadorSalas + 1, (t2 - t1));
+            string jsonString = JsonConvert.SerializeObject(ac);
+            StartCoroutine(cellular(jsonString));
+            //Debug.Log("tiempo de generacíón de salas: " + (t2 - t1));
             
         }
-        
     }
+    IEnumerator cellular(string js)
+    {
+        UnityWebRequest uwr = new UnityWebRequest("https://pcg-nest.herokuapp.com/cellularStatic", "POST");
+        byte[] xmlToSend = Encoding.UTF8.GetBytes(js);
+        uwr.uploadHandler = (UploadHandler)new UploadHandlerRaw(xmlToSend);
+        string cadenadeXML = Encoding.UTF8.GetString(xmlToSend);
+        //Debug.Log(cadenadeXML);
+        uwr.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();
+        uwr.SetRequestHeader("Content-Type", "application/json");
+        yield return uwr.SendWebRequest();
+        if (uwr.isNetworkError || uwr.isHttpError)
+        {
+            string servicioResult2 = uwr.downloadHandler.text;
+            Debug.Log("error webrequest: " + servicioResult2);
+            Debug.Log("statusCode: " + uwr.responseCode);
+            uwr.Dispose();
+            yield break;
+        }
+        else
+        {
+            Debug.Log("se envio la data");
+            Debug.Log("statusCode: " + uwr.responseCode);
+            uwr.Dispose();
+            yield break;
+        }
+    }
+
     private void desvanecerElementos()
     {
         gm.panelCarga.GetComponent<panelCarga>().desvanecerElementos();

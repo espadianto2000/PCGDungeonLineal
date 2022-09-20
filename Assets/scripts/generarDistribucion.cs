@@ -14,6 +14,7 @@ public class generarDistribucion : MonoBehaviour
     public GameObject[] enemigos;
     public GameObject premio;
     public GameObject trampa;
+    public int contObs = 0;
     private string archivoGuardar = "datos.csv";
 
     // Start is called before the first frame update
@@ -346,6 +347,7 @@ public class generarDistribucion : MonoBehaviour
             {
                 if(mapeado[x,y]==3|| mapeado[x, y] == 4)
                 {
+                    contObs++;
                     GameObject obs = Instantiate(obstaculos[Random.Range(0, obstaculos.Length)], new Vector3(posXIni + x, 0, posZIni - y), Quaternion.identity);
                     obs.transform.SetParent(transform);
                     //instanciamos obstaculos (rocas)
