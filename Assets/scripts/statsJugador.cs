@@ -36,7 +36,7 @@ public class statsJugador : MonoBehaviour
     public TextMeshProUGUI knockbackMeleeUI;
 
 
-    private bool pGracia = false;
+    public bool pGracia = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -228,10 +228,10 @@ public class statsJugador : MonoBehaviour
             cooldownMelee = cooldownMelee + cooldownExtra;
         }
         if (cooldownMelee > 7.5f) { cooldownMelee = 7.5f; }
-        if (cooldownMelee < 1) { cooldownMelee = 1; }
+        if (cooldownMelee < 2) { cooldownMelee = 2; }
         cooldownMeleeUI.text = (cooldownMelee + "s");
     }
-    public void cambiarTamañoEspada(float rangoExtra, bool multiplier)
+    public void cambiarTamanoEspada(float rangoExtra, bool multiplier)
     {
         if (multiplier)
         {
@@ -242,6 +242,7 @@ public class statsJugador : MonoBehaviour
             rangoMelee = rangoMelee + rangoExtra;
         }
         if (rangoMelee < 1) { rangoMelee = 1; }
+        if(rangoMelee > 7) { rangoMelee = 7; }
         float ancho = (rangoMelee + 4.5f) / 6;
         espada.transform.localScale = new Vector3(ancho,rangoMelee, espada.transform.localScale.z);
         rangoMeleeUI.text = Math.Round((rangoMelee / 0.5) - 1) + "";
@@ -299,5 +300,9 @@ public class statsJugador : MonoBehaviour
     {
         pGracia = false;
         this.GetComponentInChildren<SkinnedMeshRenderer>().enabled = true;
+    }
+    public void disolverGraciaPublic()
+    {
+        Invoke("disolverGracia", 1.5f);
     }
 }

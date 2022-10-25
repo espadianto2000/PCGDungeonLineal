@@ -104,7 +104,7 @@ public class salas : MonoBehaviour
             }
             if (timer <= 0 && !spawnedBoss && salasInstanciadas.Count >= 1 && term)
             {
-                int orden = Random.Range(0, boss.Length);
+                int orden = Mathf.RoundToInt(Random.Range(0f, 1000f) % boss.Length);
                 refrescarNavMesh();
                 GameObject jefe = Instantiate(boss[orden], salasInstanciadas[salasInstanciadas.Count - 1].transform.position, Quaternion.identity);
                 jefe.transform.parent = salasInstanciadas[salasInstanciadas.Count - 1].transform;

@@ -5,9 +5,10 @@ using UnityEngine;
 public class trampa : MonoBehaviour
 {
     float timer = 3f;
+    dificultadLineal dl;
     void Start()
     {
-        
+        dl = GameObject.Find("dificultad").GetComponent<dificultadLineal>();
     }
 
     // Update is called once per frame
@@ -27,7 +28,7 @@ public class trampa : MonoBehaviour
     {
         if (other.CompareTag("player"))
         {
-            other.GetComponent<statsJugador>().recibirDano(1);
+            other.GetComponent<statsJugador>().recibirDano(Mathf.RoundToInt(dl.nivelDificultad - 1));
         }
     }
 }

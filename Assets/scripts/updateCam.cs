@@ -140,6 +140,8 @@ public class updateCam : MonoBehaviour
                 }
                 player.GetComponentInChildren<Animator>().SetBool("corriendo", false);
                 moverjugador = false;
+                player.GetComponent<statsJugador>().pGracia = true;
+                player.GetComponent<statsJugador>().disolverGraciaPublic();
                 //player.GetComponent<charController>().cuerpo.transform.localPosition = new Vector3(-0.08f, -0.5f, -0.15f);
                 player.GetComponent<charController>().animador.Play("Idle_Battle");
                 if (!finalizado)

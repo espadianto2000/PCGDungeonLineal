@@ -11,7 +11,7 @@ public class statsRegalo : MonoBehaviour
     public int cambiarDanoRango = 0;
     public int cambiarVelocidadAtaqueRango = 0;
     public int cambiarCooldownMelee = 0;
-    public int cambiarTamañoEspada = 0;
+    public int cambiarTamanoEspada = 0;
     public int cambiarRangoDistancia = 0;
     public int cambiarKnockbackMelee = 0;
     public int recibirDano = 0;
@@ -33,30 +33,27 @@ public class statsRegalo : MonoBehaviour
         }
         else
         {
-            puntaje = Random.Range(1, 4);
+            puntaje = Mathf.RoundToInt(Random.Range(1, 300) % 3) + 1;
         }
-        switch (Random.Range(0, 2))
+        for (int i = 0; i < puntaje; i++)
         {
-            case 0:
-                for (int i = 0; i < puntaje; i++)
-                {
-                    arr[Random.Range(0, 10)]++;
-                }
-                break;
-            case 1:
-                for (int i = 0; i < puntaje + 1; i++)
-                {
-                    
-                    arr[Random.Range(0, 10)]++;
-                }
-                int rand = 1;
-                while (rand == 1)
-                {
-                    rand = Random.Range(0, 11);
-                }
-                arr[rand] -= 1;
-                break;
+            switch (Mathf.RoundToInt(Random.Range(0f, 200f) % 2))
+            {
+                case 0:
+                    arr[Mathf.RoundToInt(Random.Range(0f, 1000f) % 10)]++;
+                    break;
+                case 1:
+                    arr[Mathf.RoundToInt(Random.Range(0f, 1000f) % 10)] += 2;
+                    int rand = 1;
+                    while (rand == 1)
+                    {
+                        rand = Mathf.RoundToInt(Random.Range(0f, 1100f) % 11);
+                    }
+                    arr[rand] -= 1;
+                    break;
+            }
         }
+            
         cambiarVidaMax = arr[0];
         cambiarVida = arr[1];
         cambiarVelocidad = arr[2];
@@ -64,7 +61,7 @@ public class statsRegalo : MonoBehaviour
         cambiarDanoRango = arr[4];
         cambiarVelocidadAtaqueRango = arr[5];
         cambiarCooldownMelee = arr[6];
-        cambiarTamañoEspada = arr[7];
+        cambiarTamanoEspada = arr[7];
         cambiarRangoDistancia = arr[8];
         cambiarKnockbackMelee = arr[9];
         recibirDano = arr[10];
@@ -102,9 +99,9 @@ public class statsRegalo : MonoBehaviour
             {
                 other.GetComponent<statsJugador>().cambiarCooldownMelee(0.5f * -cambiarCooldownMelee, false);
             }
-            if (cambiarTamañoEspada != 0)
+            if (cambiarTamanoEspada != 0)
             {
-                other.GetComponent<statsJugador>().cambiarTamañoEspada(0.5f * cambiarTamañoEspada, false);
+                other.GetComponent<statsJugador>().cambiarTamanoEspada(0.5f * cambiarTamanoEspada, false);
             }
             if (cambiarRangoDistancia != 0)
             {

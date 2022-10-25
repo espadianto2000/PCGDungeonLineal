@@ -104,13 +104,13 @@ public class seguirMouse : MonoBehaviour
             else { texto.GetComponent<TextMeshProUGUI>().text = "Cooldown Melee: +" + stats.cambiarCooldownMelee; }
             panel.transform.GetChild(1).GetComponent<RawImage>().texture = CooldownMelee.texture;
         }
-        if (stats.cambiarTamañoEspada != 0)
+        if (stats.cambiarTamanoEspada != 0)
         {
             GameObject panel = Instantiate(TextoStat, transform);
             GameObject texto = panel.transform.GetChild(0).gameObject;
-            if (stats.cambiarTamañoEspada < 0)
-                texto.GetComponent<TextMeshProUGUI>().text = "Largo Espada: " + stats.cambiarTamañoEspada;
-            else { texto.GetComponent<TextMeshProUGUI>().text = "Largo Espada: +" + stats.cambiarTamañoEspada; }
+            if (stats.cambiarTamanoEspada < 0)
+                texto.GetComponent<TextMeshProUGUI>().text = "Largo Espada: " + stats.cambiarTamanoEspada;
+            else { texto.GetComponent<TextMeshProUGUI>().text = "Largo Espada: +" + stats.cambiarTamanoEspada; }
             panel.transform.GetChild(1).GetComponent<RawImage>().texture = TamanoEspada.texture;
         }
         if (stats.cambiarRangoDistancia != 0)

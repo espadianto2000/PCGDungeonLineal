@@ -33,15 +33,15 @@ public class statsEnemigo3 : MonoBehaviour
         {
             transform.parent.GetComponent<updateCam>().contadorEnemigos -= 1;
             int numero = Random.Range(0, 100);
-            if (numero >= 55 && numero <= 82)
+            if (numero >= 85 && numero <= 92)
             {
                 GameObject obj = Instantiate(medioCorazon, transform.position, Quaternion.identity);
-                obj.GetComponent<Rigidbody>().velocity = new Vector3(Random.Range(-4f, 4f), 2.5f, Random.Range(-4f, 4f));
+                obj.GetComponent<Rigidbody>().velocity = new Vector3(Random.Range(-2f, 2f), 2.5f, Random.Range(-2f, 2f));
             }
-            else if (numero > 83)
+            else if (numero > 92)
             {
                 GameObject obj = Instantiate(corazon, transform.position, Quaternion.identity);
-                obj.GetComponent<Rigidbody>().velocity = new Vector3(Random.Range(-4f, 4f), 2.5f, Random.Range(-4f, 4f));
+                obj.GetComponent<Rigidbody>().velocity = new Vector3(Random.Range(-2f, 2f), 2.5f, Random.Range(-2f, 2f));
             }
             Destroy(gameObject);
         }
